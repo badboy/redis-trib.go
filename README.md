@@ -28,6 +28,24 @@ make
 ./redis-trib check 127.0.0.1:7001
 ~~~
 
+## Roadmap
+
+This project needs a lot of work. I listed some things in no particular order:
+
+* Implement more subcommands
+  * `create`
+  * `add-node`
+  * `del-node`
+  * `reshard`
+  * `fix`
+* Find a nice and easy way to implement these subcommands
+* Write tests
+* Better logging functions
+* Documentation about the code
+* Documentation about how to use
+* License, contributions guideline, ...
+* Release a proper version
+
 ## State of the code
 
 This is the first Go code I ever wrote. It is not really good, the program is not anywhere near to be a complete replacement for either ruster or redis-trib.rb and it lacks a few basic things (proper error checks, cleaned-up code, tests, comments, ...)
