@@ -4,8 +4,6 @@ import (
 	"fmt"
 )
 
-//func (c *Cluster) EachPrint(cmd string, args ...interface{}) ([]*InterfaceErrorCombo, error) {
-
 func (c *Cluster) PrintNodes() {
 	nodes, _ := c.FetchNodes()
 
