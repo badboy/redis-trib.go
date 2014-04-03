@@ -8,6 +8,7 @@ Inspired heavily by [ruster][] and the original [redis-trib.rb][].
 ## Dependencies
 
 * [redigo][]
+* [cli][]
 
 Dependencies are handled by [gpm][], simple install it and type `gpm` to fetch them.
 
@@ -60,3 +61,4 @@ Just open an [issue][], drop me a message on [twitter][] or write an email.
 [twitter]: https://twitter.com/badboy_
 [gpm]: https://github.com/pote/gpm
 [redigo]: https://github.com/garyburd/redigo/
+[cli]: https://github.com/codegangsta/cli
