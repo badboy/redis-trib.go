@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/garyburd/redigo/redis"
 	"math/rand"
 	"strings"
+
+	"github.com/garyburd/redigo/redis"
 )
 
 const CLUSTER_HASH_SLOTS = 16384
@@ -49,7 +50,6 @@ func (c *Cluster) FetchNodes() ([]*Node, error) {
 	c_nodes, err := redis.String(node.Call("CLUSTER", "NODES"))
 
 	if err != nil {
-		fmt.Println("Error in FetchNodes", err)
 		return nil, err
 	}
 
@@ -69,7 +69,7 @@ func (c *Cluster) FetchNodes() ([]*Node, error) {
 		} else {
 			new_node, err := NewNode(ip_port)
 			if err != nil {
-				return nil, err
+				new_node.SetInfo(parts)
 			}
 			nodes = append(nodes, new_node)
 		}

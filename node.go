@@ -47,7 +47,6 @@ func (node *Node) LoadInfo() (*Node, error) {
 	nodes, err := redis.String(node.Call("CLUSTER", "NODES"))
 
 	if err != nil {
-		//fmt.Println("Error in LoadInfo:", err)
 		return node, err
 	}
 
@@ -75,8 +74,6 @@ func (node *Node) AddSlots(start, end int) {
 }
 
 func (node *Node) SetInfo(parts []string) *Node {
-	//id, ip_port, flags, master_id, ping, pong, config, state, *slots
-
 	node.id = parts[0]
 	node.flags = strings.Split(parts[2], ",")
 	if !strings.Contains(parts[2], "myself") {
@@ -154,7 +151,6 @@ func (node *Node) IsClusterEnabled() bool {
 	info, err := redis.String(node.Call("INFO", "cluster"))
 
 	if err != nil {
-		//fmt.Println("Error in IsClusterEnabled:", err)
 		return false
 	}
 
@@ -165,7 +161,6 @@ func (node *Node) IsOnlyNode() bool {
 	info, err := redis.String(node.Call("CLUSTER", "INFO"))
 
 	if err != nil {
-		//fmt.Println("Error in IsOnlyNode:", err)
 		return false
 	}
 
@@ -176,7 +171,6 @@ func (node *Node) IsEmpty() bool {
 	info, err := redis.String(node.Call("INFO", "keyspace"))
 
 	if err != nil {
-		//fmt.Println("Error in IsEmpty:", err)
 		return false
 	}
 
