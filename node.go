@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -210,4 +211,44 @@ func (node *Node) InFailState() bool {
 
 func (node *Node) String() string {
 	return fmt.Sprintf("%s [%s]", node.id, node.ip_port)
+}
+
+func (node *Node) GetConfigSignature() string {
+	config := []string{}
+
+	nodes, err := redis.String(node.Call("CLUSTER", "NODES"))
+
+	if err != nil {
+		return ""
+	}
+
+	n_nodes := strings.Split(nodes, "\n")
+	for _, val := range n_nodes {
+		parts := strings.Split(val, " ")
+		if len(parts) <= 3 {
+			continue
+		}
+
+		sig := parts[0] + ":"
+
+		slots := []string{}
+		if len(parts) > 7 {
+			for i := 8; i < len(parts); i++ {
+				p := parts[i]
+				if !strings.Contains(p, "[") {
+					slots = append(slots, p)
+				}
+			}
+		}
+		if len(slots) == 0 {
+			continue
+		}
+		sort.Strings(slots)
+		sig = sig + strings.Join(slots, ",")
+
+		config = append(config, sig)
+	}
+
+	sort.Strings(config)
+	return strings.Join(config, "|")
 }

@@ -29,6 +29,27 @@ func (c *Cluster) CheckCluster() {
 }
 
 func (c *Cluster) CheckConfigConsistency() {
+	nodes, _ := c.FetchNodes()
+
+	clean := true
+	old_sig := ""
+	for _, node := range nodes {
+		if len(old_sig) == 0 {
+			old_sig = node.GetConfigSignature()
+		} else {
+			new_sig := node.GetConfigSignature()
+			if old_sig != new_sig {
+				fmt.Println("[ERR] Signatures don't match. Error in Config.")
+				fmt.Println("      Error came up when checking node", node.String())
+				clean = false
+				break
+			}
+		}
+	}
+
+	if clean {
+		fmt.Println("[OK] Config consistent.")
+	}
 }
 
 func (c *Cluster) CheckOpenSlots() {
