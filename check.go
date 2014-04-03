@@ -14,6 +14,9 @@ func (c *Cluster) PrintNodes() {
 		} else {
 			node_type = "slave "
 		}
+		if node.IsFailed() {
+			node_type = node_type + ",failed"
+		}
 		fmt.Println(node, node_type, "#slots:", len(node.slots))
 	}
 }

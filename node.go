@@ -27,6 +27,7 @@ type Node struct {
 	slots_migrating map[int]string
 	client          redis.Conn
 	dirty           bool
+	last_error      error
 }
 
 func NewNode(ip_port string) (*Node, error) {
@@ -38,6 +39,7 @@ func NewNode(ip_port string) (*Node, error) {
 		slots_importing: make(map[int]string),
 	}
 	_, err := n.LoadInfo()
+	n.last_error = err
 	return n, err
 }
 
@@ -196,6 +198,20 @@ func (node *Node) IsMaster() bool {
 }
 func (node *Node) IsSlave() bool {
 	return node.FlagIsSet("slave")
+}
+func (node *Node) IsFailed() bool {
+	return node.FlagIsSet("fail")
+}
+func (node *Node) IsDisconnected() bool {
+	return node.FlagIsSet("disconnected")
+}
+func (node *Node) HasNoAddress() bool {
+	return node.FlagIsSet("noaddr")
+}
+func (node *Node) InFailState() bool {
+	return node.IsFailed() ||
+		node.IsDisconnected() ||
+		node.HasNoAddress()
 }
 
 func (node *Node) String() string {
