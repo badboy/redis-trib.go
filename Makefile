@@ -4,7 +4,7 @@ build: redis-trib
 deps: Godeps
 	gpm
 
-sources=cluster.go main.go node.go utils.go
+sources=cluster.go main.go node.go utils.go check.go
 
 redis-trib: $(sources)
 	go build -o redis-trib $(sources)
