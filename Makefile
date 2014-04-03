@@ -1,4 +1,4 @@
-all: redis-trib
+all: build
 build: redis-trib
 
 deps: Godeps
